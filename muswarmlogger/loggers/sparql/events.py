@@ -29,7 +29,7 @@ async def store_events(event: ContainerEvent, sparql: SPARQLClient):
     _datetime = datetime.fromtimestamp(int(_time))
 
     event_id = "%s_%s" % (event_id, _timeNano)
-    event_node = Node(DockEvent.__iri__+ "%s" % event_id, {
+    event_node = Node(DockEvent.__iri__+ event_id, {
         RDF.type: DockEventTypes.event,
         DockEvent.eventId: event_id,
         DockEvent.time: _time,
@@ -54,7 +54,7 @@ async def store_events(event: ContainerEvent, sparql: SPARQLClient):
 
     if container is not None:
         container_id = "%s_%s" % (container["Id"], _timeNano)
-        container_node = Node(DockContainer.__iri__ + "%s" % container_id, {
+        container_node = Node(DockContainer.__iri__ + container_id, {
             DockContainer.id: container["Id"],
             DockContainer.name: container["Name"],
         })
@@ -68,7 +68,7 @@ async def store_events(event: ContainerEvent, sparql: SPARQLClient):
                 container["NetworkSettings"]["Networks"].items():
             network_id = "%s_%s" % (network["NetworkID"], _timeNano)
             network_node = Node(
-                DockContainerNetwork.__iri__ + "%s" % network_id,
+                DockContainerNetwork.__iri__ + network_id,
                 {
                     DockContainerNetwork.name: name,
                     DockContainerNetwork.id: network["NetworkID"],
@@ -83,7 +83,7 @@ async def store_events(event: ContainerEvent, sparql: SPARQLClient):
     if actor != "":
         actor_id = actor.get("ID", "")
         actor_id = "%s_%s" % (actor_id, _timeNano)
-        actor_node = Node(DockEventActor.__iri__ + "%s" % actor_id, {
+        actor_node = Node(DockEventActor.__iri__ + actor_id, {
             DockEventActor.actorId: actor_id,
         })
         actor_attributes = actor.get("Attributes", {})
